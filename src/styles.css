@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('./fonts/Inter-Regular.woff2') format('.woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bright-blue: #2174fd;
+  --lighter-blue: #2388ff;
+  --shadow-color: #bac0cc;
+  --light-grey-color: #f0f2f5;
+}
+
+html,
+body {
+  background-color: #e3e6ea;
+  font-family: 'Inter', sans-serif;
+}
+
+hr {
+  border-color: #f0f2f5;
+  margin: 1rem;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 1px 5px 1px var(--shadow-color);
+  color: #666f8d;
+  text-align: left;
+  padding: 1rem;
+}
+
+.card input {
+  border: none;
+  font-size: medium;
+  width: 100%;
+}
+
+.container {
+  text-align: center;
+  margin: 15rem;
+}
+
+.btns-container {
+  display: flex;
+  gap: 0.1rem;
+}
+
+.btns-container .btn:last-child {
+  margin-left: auto;
+}
+
+.btn {
+  color: #fff;
+  margin: 0.1rem;
+  border: none;
+  background: none;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  background-color: var(--light-grey-color);
+}
+
+.btn:active {
+  transform: scale(1.1);
+}
+
+.btn-text {
+  background-color: var(--bright-blue);
+  font-size: small;
+}
+
+.btn-text:hover {
+  background-color: var(--lighter-blue);
+}

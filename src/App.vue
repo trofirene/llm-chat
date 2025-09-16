@@ -1,11 +1,14 @@
-<script setup lang="ts"></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div>
+    <MainPage />
+  </div>
 </template>
 
-<style scoped></style>
+<script>
+import MainPage from './components/MainPage.vue'
+export default {
+  components: { MainPage },
+}
+</script>
+
+<style lang="scss"></style>
