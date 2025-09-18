@@ -1,10 +1,7 @@
 <template>
   <div class="container">
     <h1>How can I help you?</h1>
-    <div class="card response" v-if="AIresponse" v-for="message in messageHistory">
-      {{ message }}
-      <!-- <MessageForm /> -->
-    </div>
+    <MessageForm />
     <div class="card">
       <textarea type="text" placeholder="Enter your message" v-model="message"></textarea>
       <hr />
@@ -12,8 +9,15 @@
         <button class="btn">
           <img src="@/icons/Paperclip.svg" alt="add file" />
         </button>
-        <button class="btn">
+        <button class="btn" @click="openImgs">
           <img src="@/icons/Photo.svg" alt="photo" />
+          <input
+            type="file"
+            style="display: none"
+            accept="image/*"
+            ref="imgInput"
+            @change="handleImageSelect"
+          />
         </button>
         <button class="btn">
           <img src="@/icons/Microphone.svg" alt="microphone" />
@@ -31,15 +35,28 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, provide } from 'vue'
 import MessageForm from './api/MessageForm.vue'
 
 export default {
   components: { MessageForm },
+
   setup() {
     const message = ref('')
     const AIresponse = ref('')
     const messageHistory = ref([])
+    provide('message', message)
+    provide('AIresponse', AIresponse)
+    provide('messageHistory', messageHistory)
+    const imgInput = ref('')
+
+    function openImgs() {
+      try {
+        imgInput.value.click()
+      } catch (err) {
+        console.log('Error', err)
+      }
+    }
 
     onMounted(() => {
       if (localStorage.getItem('chatHistory') !== null) {
@@ -52,7 +69,8 @@ export default {
       let newMessage = {
         text: text,
         sender: sender,
-        timestamp: new Date().getTime(),
+        timestamp: new Date().getTime() + Math.random(),
+        image: null,
       }
 
       if (localStorage.getItem('chatHistory') === null) {
@@ -99,11 +117,28 @@ export default {
       }
     }
 
+    function handleImageSelect() {
+      const imgFile = event.target.files[0]
+      const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']
+      const extension = imgFile.name.split('').pop().toLowerCase()
+      const maxSize = 5 * 1024 * 1024
+      if (!allowedExtensions.includes(extension)) {
+        return console.log('Неподходящий формат файла')
+      } else if (imgFile.size > maxSize) {
+        return console.log('Размер файла больше 5мб')
+      } else {
+        return console.log('Можем продолжать работу')
+      }
+    }
+
     return {
       sendMessage,
+      handleImageSelect,
+      openImgs,
       message,
       AIresponse,
       messageHistory,
+      imgInput,
     }
   },
 }
